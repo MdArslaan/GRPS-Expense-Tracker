@@ -3,6 +3,7 @@ import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { API_URL } from '../config';
 
 const WorkerDashboard = () => {
   const { user } = useContext(AuthContext);
@@ -25,7 +26,7 @@ const WorkerDashboard = () => {
 
   const fetchTransactions = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/transactions', {
+      const res = await axios.get(`${API_URL}/api/transactions`, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setTransactions(res.data);
@@ -59,7 +60,7 @@ const WorkerDashboard = () => {
 
     setLoading(true);
     try {
-      await axios.post('http://localhost:5000/api/transactions', formData, {
+      await axios.post(`${API_URL}/api/transactions`, formData, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       toast.success('Record added successfully!');
@@ -75,7 +76,7 @@ const WorkerDashboard = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this record?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/transactions/${id}`, {
+      await axios.delete(`${API_URL}/api/transactions/${id}`, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       toast.success('Record deleted successfully!');

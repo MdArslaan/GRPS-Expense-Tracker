@@ -4,6 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { Download } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { API_URL } from '../config';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -48,7 +49,7 @@ const AdminDashboard = () => {
     const fetchStats = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`http://localhost:5000/api/transactions/stats?year=${year}`, {
+        const res = await axios.get(`${API_URL}/api/transactions/stats?year=${year}`, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         setStats(res.data);
@@ -62,7 +63,7 @@ const AdminDashboard = () => {
       fetchStats();
       const fetchUsers = async () => {
         try {
-          const res = await axios.get('http://localhost:5000/api/auth/users', {
+          const res = await axios.get(`${API_URL}/api/auth/users`, {
             headers: { Authorization: `Bearer ${user.token}` }
           });
           setUsers(res.data);
@@ -84,7 +85,7 @@ const AdminDashboard = () => {
     setExpandedMonth(monthNumber);
     setLoadingDetails(true);
     try {
-      const res = await axios.get(`http://localhost:5000/api/transactions?month=${monthNumber}&year=${year}`, {
+      const res = await axios.get(`${API_URL}/api/transactions?month=${monthNumber}&year=${year}`, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setMonthTransactions(res.data);
@@ -96,7 +97,7 @@ const AdminDashboard = () => {
 
   const downloadFormattedReport = async () => {
     try {
-      let url = `http://localhost:5000/api/transactions?year=${year}`;
+      let url = `${API_URL}/api/transactions?year=${year}`;
       let title = "Stock Summary";
       let dateRange = "All Time";
 
